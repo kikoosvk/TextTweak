@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>TextTweak acceptance fixture</title>
+<style>body{font:20px system-ui;margin:60px} #text{width:500px} #bottom{margin-top:1100px} iframe{width:600px;height:230px} #styled{white-space:normal!important}</style>
+<script>
+window.keys = { window: 0, capture: 0, bubble: 0 }; window.linkClicks = 0;
+window.addEventListener('keydown', () => keys.window++, true);
+document.addEventListener('keydown', () => keys.capture++, true);
+document.addEventListener('keydown', () => keys.bubble++);
+</script>
+<h1>TextTweak test page</h1><p id="text">Hello world</p>
+<p id="markup">A <b id="bold">bold</b> <a id="link" href="#destination">link</a> remains.</p>
+<p id="styled">Styled <span style="white-space:normal">multiline text</span></p>
+<p id="nested">Outside <span id="deep">deep text</span></p>
+<p id="false" contenteditable="false">Explicit false</p>
+<input id="input" value="Existing input"><textarea>Existing textarea</textarea>
+<div contenteditable="true"><span id="inherited">Existing editor</span></div>
+<div id="container">Contains <input value="input"></div>
+<button id="outside">Outside control</button><div id="shadow"></div>
+<iframe src="http://127.0.0.1:8765/frame.html"></iframe>
+<p id="bottom">Bottom edge text</p>
+<script>
+link.addEventListener('click', () => linkClicks++);
+shadow.attachShadow({mode:'open'}).innerHTML = '<p id="shadowText">Shadow text</p>';
+</script></html>

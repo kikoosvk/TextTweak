@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "TextTweak",
+  "version": "1.0.0",
+  "description": "Temporarily edit webpage text, with original and saved drafts.",
+  "minimum_chrome_version": "120",
+  "permissions": ["contextMenus"],
+  "background": { "service_worker": "background.js" },
+  "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["content/bootstrap.js", "content/state.js", "content/toolbar.js", "content/editor.js"],
+    "run_at": "document_start",
+    "all_frames": true,
+    "world": "ISOLATED"
+  }]
+}
