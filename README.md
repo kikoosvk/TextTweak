@@ -9,7 +9,7 @@ Right-click webpage text, choose **Edit**, and type directly into the page. A sm
 3. Enable **Developer mode**, choose **Load unpacked**, and select the **extension/** folder.
 4. **Refresh already-open webpages.** Refresh again after updating or reloading the extension.
 
-No build, npm install, account, backend, or runtime dependency is required. Node and npm are only for development tests. Chrome 120 is the minimum supported API version. Automated tests have passed in Chrome 156 on macOS; Vivaldi and Windows compatibility remain unverified.
+No build, npm install, account, backend, or runtime dependency is required. Node and npm are only for development tests and optional icon generation; release packaging uses Python 3.9+. Chrome 120 is the minimum supported API version. Automated tests, including the extracted release package, have passed in Chrome 156 on macOS. Vivaldi automated startup failed before tests; manual Vivaldi and Windows compatibility remain unverified.
 
 ## Use
 
@@ -28,7 +28,7 @@ Example: save **Hello everyone** over **Hello world**, reopen and type **Hello t
 
 The only named permission is `contextMenus`. Static scripts run at `document_start` in matching HTTP(S) documents and frames. This intentionally causes a broad site-access warning: capturing the right-click target and registering early keyboard guards requires scripts to be present before you choose Edit. There is no `tabs`, `scripting`, `activeTab`, clipboard, storage, or network permission.
 
-TextTweak makes no external requests, stores nothing persistently, logs no edited text, and has no analytics or page-message bridge. Content snapshots stay in the owning frame; internal messages carry only operations, session identities, and status. State disappears on refresh. Local DOM edits **are visible to website scripts**, which could transmit observed changes independently of this extension.
+The developer receives no webpage content, edits or usage information from TextTweak. The extension makes no external requests, stores no editing state persistently, and has no analytics, click/keystroke/browsing-history logs or page-message bridge. Content snapshots stay in the owning frame; internal messages carry only operations, session identities, and status. State disappears on refresh; browser back/forward caching may retain an old document and its in-memory state. Local DOM edits **are visible to website scripts**, which could transmit observed changes independently of this extension. See the [privacy policy](PRIVACY.md) for the content, input and temporary metadata processed locally.
 
 ## Boundaries
 
@@ -67,3 +67,11 @@ TEXTTWEAK_BROWSER='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 Implementation: `background.js` registers the menu and routes authenticated messages. The ordered content scripts bootstrap early guards, capture/reconcile snapshots, render the closed-shadow popover, and manage editing. The top document serializes session claims; the worker keeps no essential session state. A missing/ambiguous owner response never authorizes a second editor.
 
 API references: [content scripts](https://developer.chrome.com/docs/extensions/reference/manifest/content-scripts), [context menus](https://developer.chrome.com/docs/extensions/reference/api/contextMenus), and [document-targeted messaging](https://developer.chrome.com/docs/extensions/reference/api/tabs).
+
+## Chrome Web Store release
+
+Run `python3 scripts/package.py` (or `npm run release`) to generate and validate `dist/TextTweak-1.0.0.zip`. No npm install is needed for packaging. The ZIP contains only runtime files, with the manifest at its root.
+
+- [Privacy policy](PRIVACY.md)
+
+The owner must publish the policy, capture screenshots, complete manual browser checks and submit through the dashboard. Nothing is automatically published.

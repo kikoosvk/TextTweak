@@ -6,7 +6,7 @@ let context, worker, profile, page, cdp, worlds;
 
 test.beforeAll(async () => {
   profile = await fs.mkdtemp(path.join(os.tmpdir(), 'texttweak-test-'));
-  const extension = path.resolve('extension');
+  const extension = path.resolve(process.env.TEXTTWEAK_EXTENSION || 'extension');
   context = await chromium.launchPersistentContext(profile, {
     ignoreDefaultArgs: ['--disable-extensions'],
     channel: 'chromium', headless: process.env.TEXTTWEAK_HEADED !== '1', timeout: 20000,
